@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:g_weather_forecast/apis/search_location/models.dart';
+import 'package:g_weather_forecast/models/location_item.dart';
+import 'package:g_weather_forecast/providers/location.dart';
+import 'package:provider/provider.dart';
 
 class LocationSearchResultCard extends StatefulWidget {
   final LocationItem item;
-  final VoidCallback? onTap;
 
-  const LocationSearchResultCard({super.key, required this.item, this.onTap});
+  const LocationSearchResultCard({super.key, required this.item});
 
   @override
   State<LocationSearchResultCard> createState() =>
@@ -22,7 +23,8 @@ class _LocationSearchResultCardState extends State<LocationSearchResultCard> {
       onExit: (_) => setState(() => _isHovered = false),
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
-        onTap: widget.onTap,
+        onTap: () =>
+            context.read<LocationProvider>().selectLocation(widget.item.name),
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
           padding: const EdgeInsets.all(15),

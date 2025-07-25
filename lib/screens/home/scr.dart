@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:g_weather_forecast/consts/color.dart';
+import 'package:g_weather_forecast/providers/location.dart';
+import 'package:g_weather_forecast/screens/home/sec_current_panel.dart';
 import 'package:g_weather_forecast/screens/home/sec_locations.dart';
 import 'package:g_weather_forecast/widgets/cards/future_weather_card.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -33,84 +36,10 @@ class HomeScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: 20,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 35,
-                      vertical: 25,
-                    ),
-                    decoration: BoxDecoration(
-                      color: gViolet,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          spacing: 20,
-                          children: const [
-                            Text(
-                              "London (2023-06-19)",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 27,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Wrap(
-                              direction: Axis.vertical,
-                              spacing: 10,
-                              children: [
-                                Text(
-                                  "Temperature: 18.71°C",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 23,
-                                  ),
-                                ),
-                                Text(
-                                  "Wind: 4.31 M/S",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 23,
-                                  ),
-                                ),
-                                Text(
-                                  "Humidity: 76%",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 23,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 25),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            spacing: 5,
-                            children: [
-                              Image.network(
-                                'https://cdn.weatherapi.com/weather/128x128/day/113.png',
-                                width: 128,
-                                height: 128,
-                              ),
-
-                              Text(
-                                "Moderate rain",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+                  CurrentWeatherPanel(
+                    currentForecast: context
+                        .watch<LocationProvider>()
+                        .forecastCurrentRes,
                   ),
                   Text(
                     "4-day forecast",
