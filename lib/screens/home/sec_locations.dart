@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:g_weather_forecast/consts/color.dart';
 import 'package:g_weather_forecast/providers/location.dart';
 import 'package:g_weather_forecast/widgets/buttons/wide_btn.dart';
+import 'package:g_weather_forecast/widgets/cards/location_srch_res_card.dart';
 import 'package:provider/provider.dart';
 
 class LocationSection extends StatelessWidget {
@@ -9,6 +10,7 @@ class LocationSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController searchCtrler = TextEditingController();
     final viewport = MediaQuery.of(context).size;
     return SizedBox(
       width: viewport.width * 0.3,
@@ -24,10 +26,18 @@ class LocationSection extends StatelessWidget {
             ),
           ),
           TextField(
+            controller: searchCtrler,
             decoration: InputDecoration(
               border: OutlineInputBorder(),
               hintText: "E.g., New York, London, Tokyo",
               hintStyle: TextStyle(color: Colors.grey),
+              suffixIcon: IconButton(
+                icon: Icon(Icons.close),
+                onPressed: () {
+                  searchCtrler.clear();
+                  context.read<LocationProvider>().changeQuery("");
+                },
+              ),
             ),
             style: TextStyle(fontSize: 24),
             onChanged: (value) =>
@@ -37,6 +47,26 @@ class LocationSection extends StatelessWidget {
             title: "Search",
             onTap: () {
               context.read<LocationProvider>().changeLocationList();
+            },
+          ),
+          Consumer<LocationProvider>(
+            builder: (_, provider, __) {
+              if (provider.query.isNotEmpty &&
+                  provider.locationList.isNotEmpty) {
+                return SizedBox(
+                  height: viewport.height * 0.4,
+                  child: ListView.separated(
+                    itemCount: provider.locationList.length,
+                    itemBuilder: (context, index) {
+                      return LocationSearchResultCard(
+                        item: provider.locationList[index],
+                      );
+                    },
+                    separatorBuilder: (_, __) => const SizedBox(height: 10),
+                  ),
+                );
+              }
+              return const SizedBox.shrink();
             },
           ),
           const Row(

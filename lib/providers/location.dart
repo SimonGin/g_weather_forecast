@@ -17,11 +17,12 @@ class LocationProvider extends ChangeNotifier {
 
   void changeQuery(String query) {
     this.query = query;
+    changeLocationList();
     notifyListeners();
   }
 
-  void changeLocationList() {
-    getListFromSearchApi();
+  void changeLocationList() async {
+    await getListFromSearchApi();
     notifyListeners();
   }
 }
