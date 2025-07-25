@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:g_weather_forecast/apis/search_location/ctrler.dart';
+import 'package:g_weather_forecast/apis/search_location/models.dart';
 import 'package:g_weather_forecast/consts/color.dart';
 import 'package:g_weather_forecast/widgets/cards/future_weather_card.dart';
 import 'package:g_weather_forecast/widgets/buttons/wide_btn.dart';
@@ -50,7 +52,15 @@ class HomeScreen extends StatelessWidget {
                     ),
                     style: TextStyle(fontSize: 24),
                   ),
-                  WideButton(title: "Search", onTap: () {}),
+                  WideButton(
+                    title: "Search",
+                    onTap: () async {
+                      SearchLocationResponse? res = await searchLocation((
+                        query: "New York",
+                      ));
+                      debugPrint("$res");
+                    },
+                  ),
                   const Row(
                     children: [
                       Expanded(
