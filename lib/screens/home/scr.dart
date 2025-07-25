@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:g_weather_forecast/apis/search_location/ctrler.dart';
-import 'package:g_weather_forecast/apis/search_location/models.dart';
 import 'package:g_weather_forecast/consts/color.dart';
+import 'package:g_weather_forecast/screens/home/sec_locations.dart';
 import 'package:g_weather_forecast/widgets/cards/future_weather_card.dart';
-import 'package:g_weather_forecast/widgets/buttons/wide_btn.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -28,74 +26,7 @@ class HomeScreen extends StatelessWidget {
         child: Row(
           spacing: viewport.width * 0.03,
           children: [
-            SizedBox(
-              width: viewport.width * 0.3,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                spacing: 20,
-                children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Enter a City Name",
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: "E.g., New York, London, Tokyo",
-                      hintStyle: TextStyle(color: Colors.grey),
-                    ),
-                    style: TextStyle(fontSize: 24),
-                  ),
-                  WideButton(
-                    title: "Search",
-                    onTap: () async {
-                      SearchLocationResponse? res = await searchLocation((
-                        query: "New York",
-                      ));
-                      debugPrint("$res");
-                    },
-                  ),
-                  const Row(
-                    children: [
-                      Expanded(
-                        child: Divider(
-                          color: Colors.grey, // Line color
-                          thickness: 1, // Line thickness
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: Text(
-                          "or",
-                          style: TextStyle(
-                            color: Colors.grey, // Text color
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Divider(
-                          color: Colors.grey, // Line color
-                          thickness: 1, // Line thickness
-                        ),
-                      ),
-                    ],
-                  ),
-                  WideButton(
-                    title: "Use Current Location",
-                    bgColor: gDarkGrey,
-                    onTap: () {},
-                  ),
-                ],
-              ),
-            ),
+            LocationSection(),
             SizedBox(
               width: viewport.width * 0.63,
               child: Column(

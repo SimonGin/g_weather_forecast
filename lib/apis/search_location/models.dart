@@ -3,19 +3,19 @@ typedef SearchLocationRequest = ({String query});
 
 // Response
 class SearchLocationResponse {
-  final List<LocationItem> locations;
+  final List<LocationItem> data;
 
-  SearchLocationResponse({required this.locations});
+  SearchLocationResponse({required this.data});
 
   factory SearchLocationResponse.fromJson(List<dynamic> json) {
     return SearchLocationResponse(
-      locations: json.map((e) => LocationItem.fromJson(e)).toList(),
+      data: json.map((e) => LocationItem.fromJson(e)).toList(),
     );
   }
 
   @override
   String toString() {
-    return 'SearchLocationResponse(locations: $locations)';
+    return 'SearchLocationResponse(locations: $data)';
   }
 }
 

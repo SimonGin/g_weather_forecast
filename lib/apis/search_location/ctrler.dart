@@ -17,6 +17,7 @@ Future<SearchLocationResponse?> searchLocation(
         SearchLocationResponse res = SearchLocationResponse.fromJson(
           response.data,
         );
+        debugPrint("Search Location Response: $res");
         return res;
       default:
         return null;
