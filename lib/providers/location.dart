@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:g_weather_forecast/apis/current/ctrler.dart';
 import 'package:g_weather_forecast/apis/current/models.dart';
+import 'package:g_weather_forecast/apis/forecast/ctrler.dart';
+import 'package:g_weather_forecast/apis/forecast/models.dart';
 import 'package:g_weather_forecast/apis/search_location/ctrler.dart';
 import 'package:g_weather_forecast/apis/search_location/models.dart';
 import 'package:g_weather_forecast/models/location_item.dart';
@@ -9,6 +11,8 @@ class LocationProvider extends ChangeNotifier {
   String selectedLocationStr = "";
   List<LocationItem> locationList;
   ForecastCurrentResponse? forecastCurrentRes;
+  NearForecastResponse? forecastNearRes;
+  List<ForecastDay> forecastDayList = [];
   String query = "";
 
   LocationProvider({this.locationList = const []});
@@ -29,6 +33,16 @@ class LocationProvider extends ChangeNotifier {
     }
   }
 
+  Future<void> getNearForecast() async {
+    NearForecastResponse? res = await forecastNearWeather((
+      cityName: selectedLocationStr,
+      days: 4,
+    ));
+    if (res != null) {
+      forecastDayList = res.forecastDay;
+    }
+  }
+
   void changeQuery(String query) {
     this.query = query;
     updateLocationList();
@@ -43,6 +57,7 @@ class LocationProvider extends ChangeNotifier {
   void selectLocation(String location) async {
     selectedLocationStr = location;
     await getCurrentForecast();
+    await getNearForecast();
     notifyListeners();
   }
 }

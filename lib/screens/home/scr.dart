@@ -47,32 +47,10 @@ class HomeScreen extends StatelessWidget {
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      FutureWeatherCard(
-                        ymd: "2023-06-20",
-                        temp: "18.71°C",
-                        wind: "4.31 M/S",
-                        humid: "76%",
-                      ),
-                      FutureWeatherCard(
-                        ymd: "2023-06-20",
-                        temp: "18.71°C",
-                        wind: "4.31 M/S",
-                        humid: "76%",
-                      ),
-                      FutureWeatherCard(
-                        ymd: "2023-06-20",
-                        temp: "18.71°C",
-                        wind: "4.31 M/S",
-                        humid: "76%",
-                      ),
-                      FutureWeatherCard(
-                        ymd: "2023-06-20",
-                        temp: "18.71°C",
-                        wind: "4.31 M/S",
-                        humid: "76%",
-                      ),
-                    ],
+                    children:
+                        (context.watch<LocationProvider>().forecastDayList)
+                            .map((day) => FutureWeatherCard(item: day))
+                            .toList(),
                   ),
                 ],
               ),

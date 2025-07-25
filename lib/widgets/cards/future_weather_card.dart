@@ -1,19 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:g_weather_forecast/apis/forecast/models.dart';
 import 'package:g_weather_forecast/consts/color.dart';
 
 class FutureWeatherCard extends StatelessWidget {
-  final String ymd;
-  final String temp;
-  final String wind;
-  final String humid;
+  final ForecastDay item;
 
-  const FutureWeatherCard({
-    super.key,
-    required this.ymd,
-    required this.temp,
-    required this.wind,
-    required this.humid,
-  });
+  const FutureWeatherCard({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {
@@ -30,32 +22,28 @@ class FutureWeatherCard extends StatelessWidget {
         spacing: 15,
         children: [
           Text(
-            "($ymd)",
+            "(${item.date})",
             style: TextStyle(
               color: Colors.white,
               fontSize: 24,
               fontWeight: FontWeight.bold,
             ),
           ),
-          Image.network(
-            'https://cdn.weatherapi.com/weather/64x64/day/302.png',
-            width: 64,
-            height: 64,
-          ),
+          Image.network('https:${item.condition.icon}', width: 64, height: 64),
           Wrap(
             direction: Axis.vertical,
             spacing: 10,
             children: [
               Text(
-                "Temp: $temp",
+                "Temp: ${item.avgTempC} °C",
                 style: TextStyle(color: Colors.white, fontSize: 20),
               ),
               Text(
-                "Wind: $wind",
+                "Wind: ${item.maxWindKph} K/H",
                 style: TextStyle(color: Colors.white, fontSize: 20),
               ),
               Text(
-                "Humidity: $humid",
+                "Humidity: ${item.avgHumidity} %",
                 style: TextStyle(color: Colors.white, fontSize: 20),
               ),
             ],
