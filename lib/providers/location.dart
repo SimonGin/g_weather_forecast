@@ -5,14 +5,14 @@ import 'package:g_weather_forecast/apis/forecast/ctrler.dart';
 import 'package:g_weather_forecast/apis/forecast/models.dart';
 import 'package:g_weather_forecast/apis/search_location/ctrler.dart';
 import 'package:g_weather_forecast/apis/search_location/models.dart';
+import 'package:g_weather_forecast/models/forecast_info.dart';
 import 'package:g_weather_forecast/models/location_item.dart';
 
 class LocationProvider extends ChangeNotifier {
   String selectedLocationStr = "";
   List<LocationItem> locationList;
   ForecastCurrentResponse? forecastCurrentRes;
-  NearForecastResponse? forecastNearRes;
-  List<ForecastDay> forecastDayList = [];
+  List<ForecastInfo> forecastDayList = [];
   String query = "";
 
   LocationProvider({this.locationList = const []});
@@ -36,10 +36,11 @@ class LocationProvider extends ChangeNotifier {
   Future<void> getNearForecast() async {
     NearForecastResponse? res = await forecastNearWeather((
       cityName: selectedLocationStr,
-      days: 4,
+      days: 5,
     ));
     if (res != null) {
       forecastDayList = res.forecastDay;
+      forecastDayList.removeAt(0);
     }
   }
 

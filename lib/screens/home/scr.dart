@@ -30,31 +30,49 @@ class HomeScreen extends StatelessWidget {
           spacing: viewport.width * 0.03,
           children: [
             LocationSection(),
-            SizedBox(
-              width: viewport.width * 0.63,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                spacing: 20,
-                children: [
-                  CurrentWeatherPanel(
-                    currentForecast: context
-                        .watch<LocationProvider>()
-                        .forecastCurrentRes,
+            context.watch<LocationProvider>().selectedLocationStr.isNotEmpty
+                ? SizedBox(
+                    width: viewport.width * 0.63,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: 20,
+                      children: [
+                        CurrentWeatherPanel(
+                          currentForecast: context
+                              .watch<LocationProvider>()
+                              .forecastCurrentRes,
+                        ),
+                        Text(
+                          "4-day forecast",
+                          style: TextStyle(
+                            fontSize: 27,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children:
+                              (context
+                                      .watch<LocationProvider>()
+                                      .forecastDayList)
+                                  .map((day) => FutureWeatherCard(item: day))
+                                  .toList(),
+                        ),
+                      ],
+                    ),
+                  )
+                : Container(
+                    width: viewport.width * 0.63,
+                    height: viewport.height * 0.8,
+                    alignment: Alignment.center,
+                    child: Text(
+                      "Select a location to show the forecast information",
+                      style: TextStyle(
+                        fontSize: 27,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
-                  Text(
-                    "4-day forecast",
-                    style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children:
-                        (context.watch<LocationProvider>().forecastDayList)
-                            .map((day) => FutureWeatherCard(item: day))
-                            .toList(),
-                  ),
-                ],
-              ),
-            ),
           ],
         ),
       ),

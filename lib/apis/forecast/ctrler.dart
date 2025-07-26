@@ -15,7 +15,6 @@ Future<NearForecastResponse?> forecastNearWeather(
     switch (response.statusCode) {
       case 200:
         NearForecastResponse res = NearForecastResponse.fromJson(response.data);
-        debugPrint(res.forecastDay[0].condition.code.toString());
         return res;
       default:
         return null;

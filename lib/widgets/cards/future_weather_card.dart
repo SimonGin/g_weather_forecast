@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:g_weather_forecast/apis/forecast/models.dart';
 import 'package:g_weather_forecast/consts/color.dart';
+import 'package:g_weather_forecast/models/forecast_info.dart';
 
 class FutureWeatherCard extends StatelessWidget {
-  final ForecastDay item;
+  final ForecastInfo item;
 
   const FutureWeatherCard({super.key, required this.item});
 
@@ -35,15 +35,15 @@ class FutureWeatherCard extends StatelessWidget {
             spacing: 10,
             children: [
               Text(
-                "Temp: ${item.avgTempC} °C",
+                "Temp: ${item.tempC} °C",
                 style: TextStyle(color: Colors.white, fontSize: 20),
               ),
               Text(
-                "Wind: ${item.maxWindKph} K/H",
+                "Wind: ${item.windKph} K/H",
                 style: TextStyle(color: Colors.white, fontSize: 20),
               ),
               Text(
-                "Humidity: ${item.avgHumidity} %",
+                "Humidity: ${item.humidity} %",
                 style: TextStyle(color: Colors.white, fontSize: 20),
               ),
             ],
