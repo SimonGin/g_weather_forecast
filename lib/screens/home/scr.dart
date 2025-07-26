@@ -5,6 +5,7 @@ import 'package:g_weather_forecast/screens/home/history_drawer.dart';
 import 'package:g_weather_forecast/screens/home/sec_current_panel.dart';
 import 'package:g_weather_forecast/screens/home/sec_locations.dart';
 import 'package:g_weather_forecast/widgets/cards/future_card.dart';
+import 'package:g_weather_forecast/widgets/popups/subscribe.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -39,6 +40,12 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showDialog(context: context, builder: (context) => SubscribePopup());
+        },
+        child: Icon(Icons.notification_add),
       ),
       endDrawer: HistoryDrawer(),
       body: Container(
