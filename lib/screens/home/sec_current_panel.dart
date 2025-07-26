@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:g_weather_forecast/apis/current/models.dart';
 import 'package:g_weather_forecast/consts/color.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CurrentWeatherPanel extends StatelessWidget {
   final ForecastCurrentResponse? currentForecast;
@@ -79,7 +82,30 @@ class CurrentWeatherPanel extends StatelessWidget {
             top: 2,
             right: 2,
             child: IconButton(
-              onPressed: () {},
+              onPressed: () async {
+                final prefs = await SharedPreferences.getInstance();
+                final jsonString = prefs.getString('weather_history');
+                List<dynamic> jsonData = [];
+                if (jsonString != null) {
+                  jsonData = jsonDecode(jsonString);
+                }
+                jsonData.add(currentForecast?.toJson());
+
+                // Save updated list
+                await prefs.setString('weather_history', jsonEncode(jsonData));
+                // ignore: use_build_context_synchronously
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      "Saved to history",
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                      textAlign: TextAlign.center,
+                    ),
+                    duration: Duration(seconds: 2),
+                    backgroundColor: Colors.green,
+                  ),
+                );
+              },
               icon: Icon(Icons.save, color: Colors.white, size: 35),
             ),
           ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:g_weather_forecast/consts/color.dart';
 import 'package:g_weather_forecast/providers/location.dart';
+import 'package:g_weather_forecast/screens/home/history_drawer.dart';
 import 'package:g_weather_forecast/screens/home/sec_current_panel.dart';
 import 'package:g_weather_forecast/screens/home/sec_locations.dart';
 import 'package:g_weather_forecast/widgets/cards/future_weather_card.dart';
@@ -23,7 +24,18 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
         backgroundColor: gViolet,
+        actions: [
+          Builder(
+            builder: (context) => IconButton(
+              onPressed: () {
+                Scaffold.of(context).openEndDrawer();
+              },
+              icon: Icon(Icons.history_sharp, color: Colors.white, size: 35),
+            ),
+          ),
+        ],
       ),
+      endDrawer: HistoryDrawer(),
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 50),
         child: Row(

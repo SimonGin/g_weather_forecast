@@ -17,4 +17,11 @@ class ForecastCurrentResponse {
       current: ForecastInfo.fromCurrentJson(json['current']),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'location': location.toJson(),
+      'current': current.toJsonFromCurrent(),
+    };
+  }
 }
