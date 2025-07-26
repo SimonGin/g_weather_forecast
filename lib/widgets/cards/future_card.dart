@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:g_weather_forecast/consts/color.dart';
 import 'package:g_weather_forecast/models/forecast_info.dart';
 
-class FutureWeatherCard extends StatelessWidget {
+class FutureCard extends StatelessWidget {
   final ForecastInfo item;
 
-  const FutureWeatherCard({super.key, required this.item});
+  const FutureCard({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {

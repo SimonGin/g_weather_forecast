@@ -13,6 +13,7 @@ class LocationProvider extends ChangeNotifier {
   List<LocationItem> locationList;
   ForecastCurrentResponse? forecastCurrentRes;
   List<ForecastInfo> forecastDayList = [];
+  int daysShowing = 5;
   String query = "";
 
   LocationProvider({this.locationList = const []});
@@ -36,7 +37,7 @@ class LocationProvider extends ChangeNotifier {
   Future<void> getNearForecast() async {
     NearForecastResponse? res = await forecastNearWeather((
       cityName: selectedLocationStr,
-      days: 5,
+      days: daysShowing,
     ));
     if (res != null) {
       forecastDayList = res.forecastDay;
@@ -57,7 +58,18 @@ class LocationProvider extends ChangeNotifier {
 
   void selectLocation(String location) async {
     selectedLocationStr = location;
+    daysShowing = 5;
     await getCurrentForecast();
+    await getNearForecast();
+    notifyListeners();
+  }
+
+  void changeDaysShowing() async {
+    if (daysShowing == 5) {
+      daysShowing = 14;
+    } else {
+      daysShowing = 5;
+    }
     await getNearForecast();
     notifyListeners();
   }
