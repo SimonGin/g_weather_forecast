@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:g_weather_forecast/consts/color.dart';
 import 'package:g_weather_forecast/providers/location.dart';
@@ -5,6 +6,7 @@ import 'package:g_weather_forecast/screens/home/history_drawer.dart';
 import 'package:g_weather_forecast/screens/home/sec_current_panel.dart';
 import 'package:g_weather_forecast/screens/home/sec_locations.dart';
 import 'package:g_weather_forecast/widgets/cards/future_card.dart';
+import 'package:g_weather_forecast/widgets/popups/email_verify.dart';
 import 'package:g_weather_forecast/widgets/popups/subscribe.dart';
 import 'package:provider/provider.dart';
 
@@ -43,7 +45,19 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          showDialog(context: context, builder: (context) => SubscribePopup());
+          showDialog(
+            context: context,
+            builder: (context) => StreamBuilder<User?>(
+              stream: FirebaseAuth.instance.authStateChanges(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return EmailVerifyPopup();
+                } else {
+                  return SubscribePopup();
+                }
+              },
+            ),
+          );
         },
         child: Icon(Icons.notification_add),
       ),

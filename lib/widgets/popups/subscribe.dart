@@ -1,14 +1,55 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:g_weather_forecast/consts/color.dart';
+import 'package:g_weather_forecast/main.dart';
 import 'package:g_weather_forecast/widgets/buttons/wide_btn.dart';
 import 'package:validatorless/validatorless.dart';
 
-class SubscribePopup extends StatelessWidget {
+class SubscribePopup extends StatefulWidget {
+  const SubscribePopup({super.key});
+
+  @override
+  State<SubscribePopup> createState() => _SubscribePopupState();
+}
+
+class _SubscribePopupState extends State<SubscribePopup> {
+  final emailCtrler = TextEditingController();
+
   final subscribeFormKey = GlobalKey<FormState>();
-  SubscribePopup({super.key});
+
+  String registerError = "";
 
   Future<void> subscibeEmail() async {
-    if (subscribeFormKey.currentState!.validate()) {}
+    if (subscribeFormKey.currentState!.validate()) {
+      try {
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: emailCtrler.text.trim(),
+          password: "123456",
+        );
+      } on FirebaseAuthException catch (e) {
+        if (e.code == "email-already-in-use") {
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+            email: emailCtrler.text.trim(),
+            password: "123456",
+          );
+          return;
+        }
+        setState(() {
+          registerError = e.message!;
+        });
+        scaffoldMessengerKey.currentState?.showSnackBar(
+          SnackBar(
+            content: Text(
+              registerError,
+              style: TextStyle(color: Colors.white, fontSize: 20),
+              textAlign: TextAlign.center,
+            ),
+            duration: Duration(seconds: 2),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
   }
 
   @override
@@ -50,6 +91,7 @@ class SubscribePopup extends StatelessWidget {
                 ),
               ),
               TextFormField(
+                controller: emailCtrler,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: "example123@site.com",
@@ -61,7 +103,7 @@ class SubscribePopup extends StatelessWidget {
                 ]),
                 style: TextStyle(fontSize: 24),
               ),
-              WideButton(title: "Subscribe", onTap: () => subscibeEmail()),
+              WideButton(title: "Continue", onTap: () => subscibeEmail()),
               Text(
                 "You can unsubscribe at any time. We respect your privacy.",
                 style: TextStyle(color: Colors.grey, fontSize: 18),
